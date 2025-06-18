@@ -1,0 +1,5 @@
+1, Coffee, 3.5
+2, Tea, 2.0
+3, Juice, 4.0
+4, Soda, 1.5
+5, Water, 1.0

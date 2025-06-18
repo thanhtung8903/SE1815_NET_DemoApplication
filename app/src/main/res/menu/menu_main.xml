@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_setting"
+        android:title="Setting"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_action_setting" />
+    <item
+        android:id="@+id/menu_favourite"
+        app:showAsAction="ifRoom"
+        android:title="Favourite"
+        android:icon="@drawable/ic_action_favourite"/>
+    <item
+        android:id="@+id/menu_logout"
+        app:showAsAction="ifRoom"
+        android:title="Logout"
+        android:icon="@drawable/ic_action_logout"/>
+    <item
+        android:id="@+id/menu_profile"
+        app:showAsAction="ifRoom"
+        android:title="Profile"
+        android:icon="@drawable/ic_action_logout"/>
+    <item
+        android:id="@+id/menu_request_gps"
+        app:showAsAction="ifRoom"
+        android:title="Request GPS"
+        android:icon="@drawable/ic_action_logout"/>
+</menu>

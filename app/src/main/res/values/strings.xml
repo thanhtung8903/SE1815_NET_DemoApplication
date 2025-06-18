@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">SE1815_NET_DemoApplication</string>
+    <string name="button_login" translatable="false">Login</string>
+    <string name="campus">Campus</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string-array name="campus">
+        <item>Ho Chi Minh</item>
+        <item>Ha Noi</item>
+    </string-array>
+</resources>

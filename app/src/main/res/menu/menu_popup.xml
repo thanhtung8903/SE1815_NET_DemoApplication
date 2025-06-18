@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_detail_profile"
+        android:title="Show Details"
+        android:icon="@drawable/ic_action_setting"/>
+    <item
+        android:id="@+id/menu_edit_profile"
+        android:title="Edit Profile"
+        android:icon="@drawable/ic_action_setting" />
+</menu>
