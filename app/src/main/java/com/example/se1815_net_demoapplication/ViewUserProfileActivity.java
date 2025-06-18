@@ -150,4 +150,9 @@ public class ViewUserProfileActivity extends AppCompatActivity {
                 }
             }
     );
+
+    public void openProductList(View view) {
+        Intent intent = new Intent(ViewUserProfileActivity.this, ProductListActivity.class);
+        startActivity(intent);
+    }
 }

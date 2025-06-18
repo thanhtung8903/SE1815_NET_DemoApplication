@@ -1,6 +1,7 @@
 package com.example.se1815_net_demoapplication;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se1815_net_demoapplication.adapter.ProductAdapter;
 import com.example.se1815_net_demoapplication.bean.ProductBean;
+import com.example.se1815_net_demoapplication.repository.ProductRepository;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -34,7 +37,9 @@ import java.util.Scanner;
 public class ProductListActivity extends AppCompatActivity {
     private RecyclerView recyclerViewProductList;
     private ProductAdapter productAdapter;
+    private FloatingActionButton fabAddProduct;
     private final List<ProductBean> productList = new ArrayList<>();
+    private ProductRepository productRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,35 +51,55 @@ public class ProductListActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        productRepository = new ProductRepository(this);
+
         recyclerViewProductList = findViewById(R.id.recyclerViewProductList);
+        fabAddProduct = findViewById(R.id.fabAddProduct);
+
         productAdapter = new ProductAdapter(productList, this);
         recyclerViewProductList.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewProductList.setAdapter(productAdapter);
+
+        // Xử lý click cho FAB
+        fabAddProduct.setOnClickListener(v -> {
+            Intent intent = new Intent(ProductListActivity.this, AddProductActivity.class);
+            startActivity(intent);
+        });
+
         fetchProductList();
-        //registerForContextMenu(recyclerViewProductList);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchProductList();
     }
 
     private void fetchProductList() {
-//        for (int i = 1; i <= 10; i++) {
-//            ProductBean product = new ProductBean();
-//            product.setId(i);
-//            product.setName("Product " + i);
-//            product.setPrice(i * 10.0);
-//            productList.add(product);
-//        }
-        Scanner scanner = new Scanner(getResources().openRawResource(R.raw.products));
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            String[] parts = line.split(",");
-            if (parts.length == 3) {
-                ProductBean product = new ProductBean();
-                product.setId(Integer.parseInt(parts[0].trim()));
-                product.setName(parts[1].trim());
-                product.setPrice(Double.parseDouble(parts[2].trim()));
-                productList.add(product);
+        new Thread(() -> {
+            try {
+                List<ProductBean> products = productRepository.getAllProducts();
+
+                runOnUiThread(() -> {
+                    productList.clear();
+                    productList.addAll(products); //
+                    productAdapter.notifyDataSetChanged();
+
+                    if (productList.isEmpty()) {
+                        Toast.makeText(ProductListActivity.this,
+                                "Chưa có sản phẩm nào",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (Exception e) {
+                runOnUiThread(() -> {
+                    Toast.makeText(ProductListActivity.this,
+                            "Lỗi khi tải danh sách: " + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                });
             }
-        }
-        productAdapter.notifyDataSetChanged();
+        }).start();
     }
 
     @Override
